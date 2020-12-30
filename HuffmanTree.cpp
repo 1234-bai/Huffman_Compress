@@ -1,8 +1,12 @@
-//#pragma warning(disable:6385 6386)
+#pragma warning(disable:6385 6386 26451)
 
 #include "HuffmanTree.h"
 #include <queue>
 #include <iostream>
+#include <utility>
+#include <climits>
+
+#define INF INT_MAX
 
 HuffmanTree::HuffmanTree(alphaTable& alT)
 {
@@ -24,126 +28,88 @@ bool HuffmanTree::initHTree(alphaTable& alT)
 	if (alT.alpNum < 1) return false;
 
 	this->alT = alT;
-	HTree = new HNode[alT.alpNum + 1];
+	HTree = new HNode[2*alT.alpNum + 1U];
 	if (!HTree) return false;
-	HCode = new std::string[alT.alpNum + 1];
+	HCode = new std::string[alT.alpNum + 1U];
 	if (!HCode) return false;
 	this->alT.sortAlpTab();
+
 	for (unsigned i = 1; i <= alT.alpNum; ++i) {
 		Alpha temp = alT.alpTab[i];
 		hash[temp.ch] = i;
 		HTree[i].initHNode((unsigned)temp.fre);
 	}
-    
 	if (!buildTree()) return false;
+    std::cout << "\n**************buildTree sucess**************\n" << std::endl;
 	nowPtr = 2 * alT.alpNum - 1;
 	if (!buildCode()) return false;
-
+	std::cout << "\n**************buildCode sucess**************\n" << std::endl;
 	return true;
 }
 
-void HuffmanTree::Select(std::queue<Alpha>& fir, std::queue<Alpha>& sec, unsigned& min_1, unsigned& min_2) {
-    //在函数调用前判断好fir只有0或1个元素的情况，使得进入该函数的fir至少含有两个以上结点
-    //
-    Alpha fir_top = fir.front();
-    fir.pop();
 
-    Alpha fir_next = fir.front();
-    fir.pop();
-    //将这两个元素压入sec中,在sec中记录这两个元素
-    sec.push(fir_top);
-    sec.push(fir_next);
-    Alpha sec_top = fir_top;
-    Alpha sec_next = fir_next;
 
-    //对1、2初始化后，开始建树
-        //如果fir为空，比较sec的两个元素
-    if (fir.empty()) {
-        min_1 = hash[sec.front().ch];
-        sec.pop();
-        min_2 = hash[sec.front().ch];
-        sec.pop();
-    }
-    else {
-        fir_top = fir.front();
-        fir.pop();
-        //如果fir出一次就空，比较fir_top和sec_top即可
-        if (fir.empty()) {
-            sec_top = sec.front();
-            sec.pop();
-            min_1 = fir_top.fre < sec_top.fre ? hash[fir_top.ch] : hash[sec_top.ch];
-            min_2 = fir_top.fre >= sec_top.fre ? hash[fir_top.ch] : hash[sec_top.ch];
-        }
-        //如果fir有至少两个元素，sec只有一个元素，比较fir_top和sec_top,
-        //如果fir_top>sec_top,则min_1为sec_top、min_2为fir_top
-        //否则比较fir_top+fir_next和fir_top+sec_top大小
-        else {
-            sec_top = sec.front();
-            sec.pop();
-            if (sec.empty()) {
-                if (fir_top.fre > sec_top.fre) {
-                    min_1 = hash[sec_top.ch];
-                    min_2 = hash[fir_top.ch];
-                }
-                else {
-                    if (fir_top.fre + fir_next.fre < fir_top.fre + sec_top.fre) {
-                        min_1 = hash[fir_top.ch];
-                        min_2 = hash[fir_next.ch];
-                    }
-                    else {
-                        min_1 = hash[fir_top.ch];
-                        min_2 = hash[sec_top.ch];
-                    }
-                }
-            }
-            //如果fir和sec都有两个及以上元素，进行各种情况比较
-            else {
-                //三种情况：
-                //队列fir中的队首和第二位合并--con_1
-                //队列sec中的队首和第二位合并--con_2
-                //队列fir中的队首和sec中的队首合并--con_3
-                unsigned con_1 = fir_top.fre + fir_next.fre;
-                unsigned con_2 = fir_top.fre + sec_top.fre;
-                unsigned con_3 = sec_top.fre + sec_next.fre;
+void HuffmanTree::Select(std::queue<std::pair<HNode, int> >& fir, std::queue<std::pair<HNode, int> >& sec,
+    unsigned& min_inx_1, unsigned& min_inx_2, int num)
+{//进入此函数，不可能两个队列同时为空
+	if (fir.empty() && sec.empty()) exit(-1);
 
-                if (con_1 <= con_2 && con_1 <= con_3) {
-                    min_1 = hash[fir_top.ch];
-                    min_2 = hash[fir_next.ch];
-                }
-                else if (con_2 <= con_1 && con_2 <= con_3) {
-                    min_1 = hash[fir_top.ch];
-                    min_2 = hash[sec_top.ch];
-                }
-                else if (con_3 <= con_2 && con_3 <= con_1) {
-                    min_1 = hash[sec_top.ch];
-                    min_2 = hash[sec_next.ch];
-                }
-            }
-        }
-    }
+	//传进来的权重值肯定是大于0的
+	//初始化每个权重都为最大值
+	int min_weight_1 = INF, min_weight_2 = INF;
+	min_inx_1 = min_inx_2 = 0;
 
+	if (!fir.empty()) {
+		min_weight_1 = fir.front().first.weight;
+		min_inx_1 = fir.front().second;
+	}
+	if (!sec.empty()) {
+		min_weight_2 = sec.front().first.weight;
+		min_inx_2 = sec.front().second;
+	}
+	if (min_weight_1 <= min_weight_2) {
+		fir.pop();
+		int weight = INF;
+		if (!fir.empty()) weight = fir.front().first.weight;
+		if (weight <= min_weight_2) {
+			min_weight_2 = weight;
+			min_inx_2 = fir.front().second;
+			fir.pop();
+		}
+	}
+	else {
+		sec.pop();
+		int weight = INF;
+		if (!fir.empty()) weight = sec.front().first.weight;
+		if (weight <= min_weight_1) {
+			min_weight_1 = min_weight_2; min_weight_2 = weight;
+			min_inx_1 = min_inx_2; min_inx_2 = sec.front().second;
+			sec.pop();
+		}
+	}
+
+	sec.push(std::make_pair( HNode(min_weight_1 + min_weight_2, min_inx_1, min_inx_2),
+			num) );
 }
 
 bool HuffmanTree::buildTree()
 {
         //根据字母表建立队列fir
-        std::queue<Alpha> fir;
-        std::queue<Alpha> sec;
+        std::queue<std::pair<HNode, int> > fir;
+        std::queue<std::pair<HNode, int> > sec;
         for (unsigned i = 1; i <= alT.alpNum; ++i) {
-            fir.push(alT.alpTab[i]);
+            fir.push(std::make_pair(HTree[i], i));
         }
 
         unsigned min1, min2;
         unsigned n = alT.alpNum;
-        if (alT.alpNum < 1) { std::cout << "\n字母个数少" << std::endl; exit(0); };
+        if (alT.alpNum < 1) { std::cout << "\n字母个数少" << std::endl; return false; };
 		if (alT.alpNum == 1) return true;
 
         int num = alT.alpNum + 1;
         while (!(fir.empty() && sec.size()==1)) {
-            Select(fir, sec, min1, min2);
-            HTree[min1].par = num; HTree[min2].par = num;
-            HTree[num].lch = min1; HTree[num].rch = min2;
-            HTree[num].weight = HTree[min1].weight + HTree[min2].weight;
+            Select(fir, sec, min1, min2, num);
+			if(!sec.empty()) HTree[num] = sec.back().first;
             num++;
         }
 
@@ -223,8 +189,8 @@ int HuffmanTree::getChInx(unsigned num)
 void HuffmanTree::print()
 {
     alT.print();
-    for (unsigned i = 0; i < alT.alpNum; ++i)
-        std::cout << HCode[i] << std::endl;
+    for (unsigned i = 1; i <= alT.alpNum; ++i)
+        std::cout << i<<"：" << HCode[i] << std::endl;
 }
 
 

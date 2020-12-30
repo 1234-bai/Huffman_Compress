@@ -1,4 +1,4 @@
-//#pragma warning(disable:6385 6386)
+#pragma warning(disable:6385 6386)
 
 #include "alphaTable.h"
 #include <algorithm>
@@ -11,7 +11,6 @@
 
 alphaTable::alphaTable(const char* filename, bool isComFile, int indx)
 {
-	std::cout << 9 << std::endl;
 	this->SIZE = Size + 1;
 	this->alpNum = 0;
 	this->alpTab = new Alpha[SIZE];
@@ -52,7 +51,7 @@ bool alphaTable::getAlpTab_File(const char* filename)
 			alpNum++;
 			//空间不足，开辟另外的空间
 			if (alpNum >= SIZE) {
-				Alpha* temp = new Alpha[SIZE + Size];
+				Alpha* temp = new Alpha[(int)SIZE + Size];
 				for (unsigned i = 1; i < SIZE; ++i) {
 					temp[i].ch = alpTab[i].ch;
 					temp[i].fre = alpTab[i].fre;
@@ -81,7 +80,7 @@ unsigned alphaTable::getAlpNum()
 
 bool alphaTable::sortAlpTab()
 {
-	std::sort(this->alpTab, this->alpTab + this->alpNum);
+	std::sort(this->alpTab + 1, this->alpTab + this->alpNum + 1);
 	return true;
 }
 
@@ -106,7 +105,7 @@ bool alphaTable::getAlpTab_Hdata(const char* filename, int indx)
 	fin.seekg(indx);
 	fin.read((char*)&alpNum, sizeof(alpNum));
 	if (alpNum > SIZE-1) {
-		alpTab = new Alpha[alpNum + Size];
+		alpTab = new Alpha[(int)alpNum + Size];
 	}
 	for (unsigned i = 1; i <= alpNum; ++i) {
 		fin.read((char*)&alpTab[i].ch, sizeof(char));

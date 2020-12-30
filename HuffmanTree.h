@@ -31,7 +31,8 @@ public:
 
 	bool initHTree(alphaTable& alT);
 
-	void Select(std::queue<Alpha>& fir, std::queue<Alpha>& sec, unsigned& min_1, unsigned& min_2);
+	void Select(std::queue<std::pair<HNode, int> >& fir, std::queue<std::pair<HNode, int> >& sec,
+		unsigned& min_inx_1, unsigned& min_inx_2, int num);
 	bool buildTree();
 
 	bool buildCode();
