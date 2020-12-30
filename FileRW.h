@@ -13,13 +13,16 @@
 
 class FileRW
 {
-private:
+public:
 	HuffmanTree Tree;
 	const char* filename;
 	int leaveBitNum;
 	//1为原码文件，2为压缩文件，3为译码文件，0为未操作文件。
 	unsigned fileType;
 	unsigned beginInx;
+
+private:
+	void write_headData2(std::ofstream& fout, const char* fileType,const char* tofile);
 
 public:
 	//初始化函数，根据文件名后缀，或文件头数据内容获得文件类型。从而获得字母表建树。
@@ -53,5 +56,8 @@ public:
 	//压缩文件向源码文件转换，默认删除中间中转的译码文件
 	bool comF2codF(const char* tofile);
 	bool comF2codF(const char* tofile, bool deleteDecodeFile);
+
+	//用于获取数，来测试函数
+	HuffmanTree getTree();
 };
 

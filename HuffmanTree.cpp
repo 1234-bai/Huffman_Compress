@@ -143,11 +143,11 @@ bool HuffmanTree::buildCode()
 		return true;
 	}
 	std::string str;
-	int root = 2 * (int)alT.alpNum - 1;
+	unsigned root = 2 * (int)alT.alpNum - 1;
 	for (unsigned i = 1; i <= root; ++i) {
 		HTree[i].weight = 0;
 	}
-	int p = root;
+	unsigned p = root;
 	while (p) {
 		if (HTree[p].weight == 0) {
 			HTree[p].weight = 1;
@@ -210,11 +210,11 @@ void HuffmanTree::print()
 {
 	alT.print();
 	//打印生成的树
-	for (unsigned i = 1; i < 2*alT.alpNum; ++i)
-		std::cout << i << "：" << HTree[i]  << std::endl;
+	//for (unsigned i = 1; i < 2*alT.alpNum; ++i)
+	//	std::cout << i << "：" << HTree[i]  << std::endl;
 	//打印生成的编码表
 	for (unsigned i = 1; i <= alT.alpNum; ++i)
-		std::cout << i << "：" << alT.alpTab[i].ch << "：" << HCode[i] << std::endl;
+		std::cout << i  << "：" << HCode[i] << std::endl;
 }
 
 

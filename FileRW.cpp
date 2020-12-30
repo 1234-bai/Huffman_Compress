@@ -4,11 +4,20 @@
 #include <cstring>
 #include "BitDeal.h"
 
+//考虑用此函数写头数据，因为这个函数要使用多次
+//问题在于：写入的时候总比在函数往外多写入几个字节。
+void FileRW::write_headData2(std::ofstream& fout, const char* a,const char* tofile)
+{
+	fout.seekp(0);
+	fout.write(a, sizeof(a));
+	fout.write((char*)&leaveBitNum, sizeof(leaveBitNum));
+	Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a) + sizeof(leaveBitNum));
+}
 
 FileRW::FileRW(const char* filename)
 {
 	if (!initFileRW(filename))
-		exit(0);
+		exit(-2);
 }
 
 bool FileRW::initFileRW(const char* filename)
@@ -23,22 +32,22 @@ bool FileRW::initFileRW(const char* filename)
 	char a[4] = { 0 };
 	fin.read(a, sizeof(a));
 	std::string namestr(filename);
-	namestr = namestr.substr(namestr.length() - 4, 3);
+	namestr = namestr.substr(namestr.length() - 3, 3);
 	std::string headstr(a);
 	if (headstr == namestr) {
 		if (headstr == "cpr")
 			fileType = 2;
-		else if (headstr == "dec")
+		else if (headstr == "dee")
 			fileType = 3;
 		else false;
 	}
 	else if (namestr == "txt" || namestr == "bmp")
 		fileType = 1;
-	else 
+	else {
 		return false;
+	}
 
 	if (fileType == 1) {
-		beginInx = 0;
 		Tree.initHTree(*(new alphaTable(filename, false)));
 		leaveBitNum = initLeaveBitNum(filename);
 		if (leaveBitNum == -1) return false;
@@ -46,16 +55,17 @@ bool FileRW::initFileRW(const char* filename)
 	else if (fileType == 2 || fileType == 3) {
 		fin.read((char*)&leaveBitNum, sizeof(leaveBitNum));
 		Tree.initHTree(*(new alphaTable(filename, true, sizeof(a) + sizeof(leaveBitNum))));
-		alphaTable ALP = Tree.getAlphaTable();
-		beginInx = sizeof("cpr") +
-			sizeof(leaveBitNum) +
-			sizeof(ALP.getAlpNum()) +
-			ALP.getAlpNum() * (sizeof(ALP.alpTab[0].ch) + sizeof(ALP.alpTab[0].fre));
 	}
 	else {
 		fin.close();
 		return false;
 	}
+
+	alphaTable ALP = Tree.getAlphaTable();
+	beginInx = sizeof("cpr") +
+		sizeof(leaveBitNum) +
+		sizeof(ALP.getAlpNum()) +
+		ALP.getAlpNum() * (sizeof(ALP.alpTab[0].ch) + sizeof(ALP.alpTab[0].fre));
 
 	fin.close();
 	return true;
@@ -85,9 +95,13 @@ bool FileRW::codeF2decodF(const char* tofile)
 	if (fileType != 1) return false;
 
 	std::ofstream fout(tofile, std::ios::out);
-	char a[4] = "dec";
-	fout.write(a,sizeof(a));
-	Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a));
+	if (!fout.is_open()) return false;
+	char a[4] = "dee";
+	fout.write(a, sizeof(a));
+	fout.write((char*)&leaveBitNum, sizeof(leaveBitNum));
+	Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a) + sizeof(leaveBitNum));
+	//write_headData2(fout, "dee", tofile);
+	fout.seekp(beginInx);
 
 	std::ifstream fin(filename, std::ios::in);
 	if(!fin.is_open())	return false;
@@ -116,6 +130,7 @@ bool FileRW::decodF2comF(const char* tofile)
 	fout.write(a,sizeof(a));
 	fout.write((char*)&leaveBitNum, sizeof(leaveBitNum));
 	Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a) + sizeof(leaveBitNum));
+	fout.seekp(beginInx);
 
 	std::ifstream fin(filename, std::ios::out | std::ios::binary);
 	if (!fin.is_open()) return false;
@@ -148,10 +163,12 @@ bool FileRW::comF2decodF(const char* tofile)
 	std::ofstream fout(tofile, std::ios::out | std::ios::binary);
 	if (!fout.is_open()) return false;
 
-	char a[4] = "dec";
+	char a[4] = "dee";
 	fout.write(a, sizeof(a));
 	fout.write((char*)&leaveBitNum, sizeof(leaveBitNum));
 	Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a) + sizeof(leaveBitNum));
+	fout.seekp(beginInx);
+
 
 	std::ifstream fin(filename, std::ios::in | std::ios::binary);
 	if (!fin.is_open()) return false;
@@ -188,7 +205,6 @@ bool FileRW::decodF2codeF(const char* tofile)
 	if (!fin.is_open()) return false;
 	fin.seekg(beginInx);
 
-
 	char ch;
 	while (fin.read(&ch,sizeof(ch))) {
 		int inx = Tree.getChInx(ch-'0');
@@ -210,10 +226,13 @@ bool FileRW::codeF2comF(const char* tofile)
 
 	std::ofstream fout(tofile, std::ios::out | std::ios::binary);
 	if (!fout.is_open()) return false;
+
 	char a[4] = "cpr";
 	fout.write(a, sizeof(a));
 	fout.write((char*)&leaveBitNum, sizeof(leaveBitNum));
 	Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a) + sizeof(leaveBitNum));
+	fout.seekp(beginInx);
+
 	std::ifstream fin(filename, std::ios::in | std::ios::binary);
 	if (!fin.is_open()) return false;
 
@@ -305,4 +324,9 @@ bool FileRW::comF2codF(const char* tofile, bool deleteDecodeFile)
 		return remove(decfilename.c_str());
 	};
 	return true;
+}
+
+HuffmanTree FileRW::getTree()
+{
+	return Tree;
 }

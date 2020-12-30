@@ -51,7 +51,7 @@ bool alphaTable::getAlpTab_File(const char* filename)
 			alpNum++;
 			//空间不足，开辟另外的空间
 			if (alpNum >= SIZE) {
-				Alpha* temp = new Alpha[(int)SIZE + Size];
+				Alpha* temp = new Alpha[SIZE + Size];
 				for (unsigned i = 1; i < SIZE; ++i) {
 					temp[i].ch = alpTab[i].ch;
 					temp[i].fre = alpTab[i].fre;
@@ -105,7 +105,7 @@ bool alphaTable::getAlpTab_Hdata(const char* filename, int indx)
 	fin.seekg(indx);
 	fin.read((char*)&alpNum, sizeof(alpNum));
 	if (alpNum > SIZE-1) {
-		alpTab = new Alpha[(int)alpNum + Size];
+		alpTab = new Alpha[alpNum + Size];
 	}
 	for (unsigned i = 1; i <= alpNum; ++i) {
 		fin.read((char*)&alpTab[i].ch, sizeof(char));
