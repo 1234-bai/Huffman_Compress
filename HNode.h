@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 //哈夫曼结点类
 
 class HNode
@@ -26,5 +28,7 @@ public:
 	//大小比较规则的设定，有利于后序排序的进行。
 	bool operator< (const HNode& other);
 
+	//方便打印，debug┭┮﹏┭┮
+	friend std::ostream& operator<< (std::ostream& out, const HNode &node);
 };
 

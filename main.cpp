@@ -32,13 +32,14 @@ int main()
 			cout << '\n' << a << endl;
 		}
 		else if (m == 3) {
-			alphaTable al("1234.txt");
-			al.print();
-			HuffmanTree tree(al);
+			//现在的问题还有，生成的树，结点的数量应该为2*n-1结果有的树为2*n。隐藏bug,时有时没有
+			HuffmanTree tree(*new alphaTable("1234.txt"));
 			tree.print();
 			char ch;
-			cin >> ch;
-			cout << tree.Ch_2_01Str(ch) << endl;
+			while (cin >> ch) {
+				if (ch == '#') break;
+				cout << tree.Ch_2_01Str(ch) << endl;
+			}
 		}
 	}
 	return 0;
