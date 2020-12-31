@@ -81,34 +81,34 @@ void HuffmanTree_test()
 
 void FileRW_codeF_decodF_test()
 {
-	FileRW file2("1234.txt");
+	FileRW file2("1234.bmp");
 	file2.codeF2decodF("1234.dee");
 	cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
-	file2.getTree().getAlphaTable().print();
+	//file2.getTree().getAlphaTable().print();
 	FileRW file("1234.dee");
-	//file.decodF2codeF("1234cod2dee.txt");
+	file.decodF2codeF("1234cod2dee.bmp");
 	cout << file.beginInx << endl;
 	cout << file.leaveBitNum << endl;
-	file.getTree().getAlphaTable().print();
+	//file.getTree().getAlphaTable().print();
 }
 
 void FileRW_decodF_comF_test()
 {
 	FileRW file("1234.dee");
 	file.decodF2comF("1234dee2cpr.cpr");
-	file.getTree().getAlphaTable().print();
+	//file.getTree().getAlphaTable().print();
 	FileRW file2("1234dee2cpr.cpr");
-	file2.getTree().getAlphaTable().print();
+	//file2.getTree().getAlphaTable().print();
 	file2.comF2decodF("1234cpr2dee.dee");
 }
 
 void FileRW_codeF_comF_test()
 {
 	FileRW file("1234.txt");
-	file.codeF2comF("1234txt2cpr.cpr");
-	file.getTree().getAlphaTable().print();
-	FileRW file2("1234txt2cpr.cpr");
-	file2.getTree().getAlphaTable().print();
-	file2.comF2codF("1234cpr2txt.txt");
+	file.codeF2comF("1234bmp2cpr.cpr");
+	//file.getTree().getAlphaTable().print();
+	FileRW file2("1234bmp2cpr.cpr");
+	//file2.getTree().getAlphaTable().print();
+	file2.comF2codF("1234cpr2bmp.txt");
 }

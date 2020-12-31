@@ -94,7 +94,7 @@ bool FileRW::codeF2decodF(const char* tofile)
 {
 	if (fileType != 1) return false;
 
-	std::ofstream fout(tofile, std::ios::out);
+	std::ofstream fout(tofile, std::ios::out|std::ios::binary);
 	if (!fout.is_open()) return false;
 	char a[4] = "dee";
 	fout.write(a, sizeof(a));
@@ -103,7 +103,7 @@ bool FileRW::codeF2decodF(const char* tofile)
 	//write_headData2(fout, "dee", tofile);
 	fout.seekp(beginInx);
 
-	std::ifstream fin(filename, std::ios::in);
+	std::ifstream fin(filename, std::ios::in|std::ios::binary);
 	if(!fin.is_open())	return false;
 
 	char ch;

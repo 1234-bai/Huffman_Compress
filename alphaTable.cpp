@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <map>
 
-#define Size 50
+#define Size 300
 
 alphaTable::alphaTable(const char* filename, bool isComFile, int indx)
 {
@@ -46,7 +46,8 @@ bool alphaTable::getAlpTab_File(const char* filename)
 	std::ifstream fin(filename, std::ios::in | std::ios::binary);
 	if (!fin.is_open()) return false;
 	char ch;
-	while (fin.read(&ch,sizeof(ch))) {
+	while (!fin.eof()) {
+		fin.read(&ch, sizeof(ch));
 		if (hash[ch] == 0) {
 			alpNum++;
 			//空间不足，开辟另外的空间
