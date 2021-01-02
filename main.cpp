@@ -108,9 +108,8 @@ void FileRW_decodF_comF_test()
 }
 
 void FileRW_codeF_comF_test()
-{//txt在向cpr转化时会出问题
-	//但是上下出问题的两种cpr是一样的，可能是leavebit的求取使得问题出现，也可能是转化末尾的问题使问题出现。
-	FileRW file("1234.txt");
+{
+	FileRW file("1234.pdf");
 	file.codeF2comF("1234.cpr");
 	cout << file.beginInx << endl;
 	cout << file.leaveBitNum << endl;
@@ -119,5 +118,5 @@ void FileRW_codeF_comF_test()
 	cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
 	//file2.getTree().getAlphaTable().print();
-	file2.comF2codF("1234_fromcpr.txt");
+	file2.comF2codF("1234_fromcpr.pdf");
 }

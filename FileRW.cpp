@@ -260,7 +260,6 @@ bool FileRW::codeF2comF(const char* tofile)
             }
             else bitnum++;
         }
-        //这种写法不对，读完文件，也不会进入，会导致最后的字符出错
         if (fin.peek() == EOF) {
             if (bitnum == 1) leaveBitNum = 0;
             else {
