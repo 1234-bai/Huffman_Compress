@@ -21,9 +21,9 @@ void FileRW_codeF_comF_test();
 
 int main()
 {
-	//bmp�ļ����벻ȫ��������֪��Ϊʲô
 	int m;
-	std::cout << "������ѡ������ӳ������:" << endl;
+	std::cout << "请输入要检测的子程序代号:" << endl;
+
 	while (std::cin >> m) {
 		if (m == 1)
 			alphaTable_test();
@@ -56,7 +56,7 @@ void BitDeal_test()
 	char a = 3;
 	for (int i = 8; i >= 1; --i)
 		std::cout << BD.getBit(a, i);
-	std::cout << "\n������Ҫ�޸ĵ�λ�����޸ĺ��01��:";
+	std::cout << "\n请输入要改变的位和对应的改变值:\n";
 	int bitnum = 1, v = 0;
 	while (cin >> bitnum >> v) {
 		if (bitnum < 0 || bitnum > 8) break;
@@ -80,35 +80,44 @@ void HuffmanTree_test()
 }
 
 void FileRW_codeF_decodF_test()
-{
-	FileRW file2("1234.bmp");
+{//txt和dee的相互转换没有问题
+	FileRW file2("1234.txt");
 	file2.codeF2decodF("1234.dee");
 	cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
 	//file2.getTree().getAlphaTable().print();
 	FileRW file("1234.dee");
-	file.decodF2codeF("1234cod2dee.bmp");
+	file.decodF2codeF("1234_fromdee.txt");
 	cout << file.beginInx << endl;
 	cout << file.leaveBitNum << endl;
 	//file.getTree().getAlphaTable().print();
 }
 
 void FileRW_decodF_comF_test()
-{
+{//dee在向cpr转换时会出问题
 	FileRW file("1234.dee");
 	file.decodF2comF("1234dee2cpr.cpr");
+	cout << file.beginInx << endl;
+	cout << file.leaveBitNum << endl;
 	//file.getTree().getAlphaTable().print();
 	FileRW file2("1234dee2cpr.cpr");
 	//file2.getTree().getAlphaTable().print();
-	file2.comF2decodF("1234cpr2dee.dee");
+	cout << file2.beginInx << endl;
+	cout << file2.leaveBitNum << endl;
+	file2.comF2decodF("1234_fromcpr.dee");
 }
 
 void FileRW_codeF_comF_test()
-{
+{//txt在向cpr转化时会出问题
+	//但是上下出问题的两种cpr是一样的，可能是leavebit的求取使得问题出现，也可能是转化末尾的问题使问题出现。
 	FileRW file("1234.txt");
-	file.codeF2comF("1234bmp2cpr.cpr");
+	file.codeF2comF("1234.cpr");
+	cout << file.beginInx << endl;
+	cout << file.leaveBitNum << endl;
 	//file.getTree().getAlphaTable().print();
-	FileRW file2("1234bmp2cpr.cpr");
+	FileRW file2("1234.cpr");
+	cout << file2.beginInx << endl;
+	cout << file2.leaveBitNum << endl;
 	//file2.getTree().getAlphaTable().print();
-	file2.comF2codF("1234cpr2bmp.txt");
+	file2.comF2codF("1234_fromcpr.txt");
 }

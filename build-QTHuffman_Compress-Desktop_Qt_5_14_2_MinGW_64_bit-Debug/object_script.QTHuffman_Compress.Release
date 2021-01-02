@@ -1,0 +1,11 @@
+release/FileRW.o
+release/HNode.o
+release/HuffmanTree.o
+release/alphaTable.o
+release/comdialog.o
+release/decomdialog.o
+release/main.o
+release/mainwindow.o
+release/moc_comdialog.o
+release/moc_decomdialog.o
+release/moc_mainwindow.o

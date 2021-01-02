@@ -1,4 +1,4 @@
-#pragma warning(disable:6385 6386 26451)
+ï»¿//#pragma warning(disable:6385 6386 26451)
 
 #include "HuffmanTree.h"
 #include <queue>
@@ -52,11 +52,10 @@ bool HuffmanTree::initHTree(alphaTable& alT)
 
 void HuffmanTree::Select(std::queue<std::pair<HNode, int> >& fir, std::queue<std::pair<HNode, int> >& sec,
 	unsigned& min_inx_1, unsigned& min_inx_2, int num)
-{//½øÈë´Ëº¯Êı£¬²»¿ÉÄÜÁ½¸ö¶ÓÁĞÍ¬Ê±Îª¿Õ
+{
 	if (fir.empty() && sec.empty()) exit(-1);
 
-	//´«½øÀ´µÄÈ¨ÖØÖµ¿Ï¶¨ÊÇ´óÓÚ0µÄ
-	//³õÊ¼»¯Ã¿¸öÈ¨ÖØ¶¼Îª×î´óÖµ
+
 	int min_weight_1 = INF, min_weight_2 = INF;
 	min_inx_1 = min_inx_2 = 0;
 
@@ -64,34 +63,32 @@ void HuffmanTree::Select(std::queue<std::pair<HNode, int> >& fir, std::queue<std
 		min_weight_1 = fir.front().first.weight;
 		min_inx_1 = fir.front().second;
 	}
-	//Ö´ĞĞÍêºó£¬min_weight_1ÓĞÁ½ÖÖÇé¿ö£ºÊÇfir¶ÓÁĞµÄ¶ÓÊ×È¨ÖØ£¬ÊÇÎŞÇî´ó
+
 	if (!sec.empty()) {
 		min_weight_2 = sec.front().first.weight;
 		min_inx_2 = sec.front().second;
 	}
-	//Ö´ĞĞÍêºó£¬min_weight_2ÓĞÁ½ÖÖÇé¿ö£ºÊÇsec¶ÓÁĞµÄ¶ÓÊ×È¨ÖØ£¬ÊÇÎŞÇî´ó
+
 
 	if (min_weight_1 <= min_weight_2) {
-		//min_weight_1¿Ï¶¨ÊÇ¶ÓÁĞÖĞµÄÁË£¬¶øÇÒ¿Ï¶¨ÊÇ×îĞ¡µÄÄÇÒ»¸ö¡£½ÓÏÂÀ´ÕÒÑ°´ÎĞ¡µÄÄÇÒ»¸ö£¬²¢ÔÚÏàÓ¦µÄ¶ÓÁĞÖĞÉ¾³ı
+	
 		fir.pop();
 
-		//Èç¹ûweight²»Îª¿Õ£¬¾ÍÈ¡¶ÓÊ×È¨ÖØ
+	
 		int weight = INF;
 		if (!fir.empty()) weight = fir.front().first.weight;
 		if (weight <= min_weight_2) {
-			//Èç¹ûweightĞ¡µÄ»°£¬¾Í¿Ï¶¨²»Îª¿Õ£¬´ÎĞ¡ÔªËØ¾ÍÔÚfirÖĞÈ¡
+			
 			min_weight_2 = weight;
 			min_inx_2 = fir.front().second;
 			fir.pop();
 		}
 		else {
-			//weight±È½Ï´óµÄ»°ÓĞÁ½ÖÖÇé¿ö£ºweightÎªÎŞÇî´ó£»weightÖµ±Èmin_weight_2Ğ¡¡£´ÎĞ¡ÔªËØÔÚsecÖĞÈ¡¡£
-			//Á½ÖÖÇéµÃÔÚsecÖĞÉ¾³ı¶ÓÁĞÔªËØ
+			
 			sec.pop();
 		}
 	}
 	else {
-		//Àà±ÈÉÏÃæµÄË¼¿¼Ë¼Â·
 		sec.pop();
 		int weight = INF;
 		if (!sec.empty()) weight = sec.front().first.weight;
@@ -113,7 +110,7 @@ void HuffmanTree::Select(std::queue<std::pair<HNode, int> >& fir, std::queue<std
 
 bool HuffmanTree::buildTree()
 {
-	//¸ù¾İ×ÖÄ¸±í½¨Á¢¶ÓÁĞfir
+
 	std::queue<std::pair<HNode, int> > fir;
 	std::queue<std::pair<HNode, int> > sec;
 	for (unsigned i = 1; i <= alT.alpNum; ++i) {
@@ -121,8 +118,8 @@ bool HuffmanTree::buildTree()
 	}
 
 	unsigned min1, min2;
-	unsigned n = alT.alpNum;
-	if (alT.alpNum < 1) { std::cout << "\n×ÖÄ¸¸öÊıÉÙ" << std::endl; return false; };
+
+	if (alT.alpNum < 1) { std::cout << "\nå­—æ¯æ•°é‡å°‘" << std::endl; return false; };
 	if (alT.alpNum == 1) return true;
 
 	int num = alT.alpNum + 1;
@@ -137,7 +134,7 @@ bool HuffmanTree::buildTree()
 }
 
 bool HuffmanTree::buildCode()
-{//O(n)£º±éÀú¶ş²æÊ÷µÄÊ±¼ä¸´ÔÓ¶È£¬º¯Êı´ı²âÊÔ
+{
 	if (alT.alpNum == 1) {
 		HCode[1] = "0";
 		return true;
@@ -209,12 +206,12 @@ int HuffmanTree::getChInx(unsigned num)
 void HuffmanTree::print()
 {
 	alT.print();
-	//´òÓ¡Éú³ÉµÄÊ÷
+
 	//for (unsigned i = 1; i < 2*alT.alpNum; ++i)
-	//	std::cout << i << "£º" << HTree[i]  << std::endl;
-	//´òÓ¡Éú³ÉµÄ±àÂë±í
+	//	std::cout << i << ":" << HTree[i]  << std::endl;
+
 	for (unsigned i = 1; i <= alT.alpNum; ++i)
-		std::cout << i  << "£º" << HCode[i] << std::endl;
+		std::cout << i  << ":" << HCode[i] << std::endl;
 }
 
 

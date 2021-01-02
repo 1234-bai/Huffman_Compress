@@ -1,6 +1,6 @@
 #pragma once
 
-//对一个char类型的8位进行操作的函数，封装成一个类
+
 class BitDeal
 {
 public:

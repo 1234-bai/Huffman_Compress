@@ -38,8 +38,7 @@ bool alphaTable::init(const char* filename, bool isComFile, int indx)
 
 bool alphaTable::getAlpTab_File(const char* filename)
 {
-	//Size过小，会触发程序异常,在print(访问函数)出现异常<解决，是读取数据时的问题>
-	//考虑各种越界的问题
+
 	//unsigned hash[257];
 	//memset(hash, -1, sizeof(hash));
 	std::unordered_map<char, int>hash;
@@ -50,7 +49,7 @@ bool alphaTable::getAlpTab_File(const char* filename)
 		fin.read(&ch, sizeof(ch));
 		if (hash[ch] == 0) {
 			alpNum++;
-			//空间不足，开辟另外的空间
+		
 			if (alpNum >= SIZE) {
 				Alpha* temp = new Alpha[SIZE + Size];
 				for (unsigned i = 1; i < SIZE; ++i) {
@@ -120,7 +119,7 @@ void alphaTable::print()
 {
 	for (unsigned i = 1; i <= alpNum; ++i) {
 		printf("%c", alpTab[i].ch);
-		std::cout << "："<<alpTab[i].fre << ' ';
+		std::cout << ":"<<alpTab[i].fre << ' ';
 	}
 	std::cout << std::endl;
 }

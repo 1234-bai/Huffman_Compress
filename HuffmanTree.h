@@ -1,6 +1,6 @@
 #pragma once
 
-//哈夫曼树类
+//锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
 
 #include "alphaTable.h"
 #include "HNode.h"
@@ -11,17 +11,17 @@
 class HuffmanTree
 {
 private:
-	//字母表
+
 	alphaTable alT;
-	//哈夫曼树表
+
 	HNode *HTree;
-	//哈夫曼编码表
+
 	std::string *HCode;
-	//哈希数组，建立字符同字母表，树表，编码表下标（三个表同一下标，表示同一字符）的映射
+
 	//unsigned hash[270];
 	std::unordered_map<char, int>hash;
 
-	//指向树表的下标，表示索引的过程。根据01字符找对应的字符是用的到
+
 	int nowPtr;
 
 public:
