@@ -1,4 +1,4 @@
-#include "FileRW.h"
+﻿#include "FileRW.h"
 #include <fstream>
 #include <string>
 #include <cstring>
@@ -18,7 +18,6 @@ FileRW::FileRW(const char* filename)
 {
     if(strcmp(filename,"\0") == 0){
         Tree = HuffmanTree();
-        this->filename = filename;
         leaveBitNum = 0;
         fileType = 0;
         beginInx = 0;
@@ -31,8 +30,12 @@ FileRW::FileRW(const char* filename)
 
 bool FileRW::initFileRW(const char* filename)
 {
-    this->filename = filename;
-
+    int len = strlen(filename);
+    this->filename = new char[len+1];
+    for(int i = 0; i < len && filename[i]; ++i){
+        this->filename[i] = filename[i];
+    }
+    this->filename[len] = '\0';
     //
     //
     std::ifstream fin(filename, std::ios::in | std::ios::binary);
@@ -96,7 +99,8 @@ int FileRW::initLeaveBitNum(const char* filename)
 
     fin.close();
 
-    return (8 - sum_bit % (sizeof(char)*8));
+    sum_bit = sum_bit % (sizeof(char)*8);
+    return sum_bit ? 8 - sum_bit : 0 ;
 }
 
 bool FileRW::codeF2decodF(const char* tofile)
