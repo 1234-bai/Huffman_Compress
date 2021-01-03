@@ -1,6 +1,5 @@
-#pragma once
+﻿#pragma once
 
-//����������
 
 #include "alphaTable.h"
 #include "HNode.h"

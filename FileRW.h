@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 
 #include "HuffmanTree.h" 
@@ -7,7 +7,7 @@ class FileRW
 {
 public:
 	HuffmanTree Tree;
-	const char* filename;
+    char* filename;
 	int leaveBitNum;
 
 	unsigned fileType;

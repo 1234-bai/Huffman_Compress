@@ -11,17 +11,17 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTableWidget>
-#include <QtWidgets/QTextEdit>
-#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -44,14 +44,14 @@ public:
     QFrame *frame_6;
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_3;
-    QTextEdit *textEdit;
+    QLineEdit *lineEdit;
     QPushButton *choseFilePathButton;
     QLabel *label_2;
     QFrame *frame_7;
     QGridLayout *gridLayout_2;
-    QToolButton *choseFileTypeButton;
-    QLabel *label_4;
     QSpacerItem *horizontalSpacer_3;
+    QLabel *label_4;
+    QComboBox *comboBox;
     QFrame *frame_4;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer_2;
@@ -154,12 +154,11 @@ public:
 
         horizontalLayout_3->addWidget(label_3);
 
-        textEdit = new QTextEdit(frame_6);
-        textEdit->setObjectName(QString::fromUtf8("textEdit"));
-        textEdit->setMaximumSize(QSize(16777215, 35));
-        textEdit->setReadOnly(true);
+        lineEdit = new QLineEdit(frame_6);
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+        lineEdit->setMinimumSize(QSize(0, 30));
 
-        horizontalLayout_3->addWidget(textEdit);
+        horizontalLayout_3->addWidget(lineEdit);
 
         choseFilePathButton = new QPushButton(frame_6);
         choseFilePathButton->setObjectName(QString::fromUtf8("choseFilePathButton"));
@@ -184,14 +183,9 @@ public:
         frame_7->setFrameShadow(QFrame::Raised);
         gridLayout_2 = new QGridLayout(frame_7);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        choseFileTypeButton = new QToolButton(frame_7);
-        choseFileTypeButton->setObjectName(QString::fromUtf8("choseFileTypeButton"));
-        choseFileTypeButton->setMinimumSize(QSize(100, 30));
-        choseFileTypeButton->setPopupMode(QToolButton::MenuButtonPopup);
-        choseFileTypeButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-        choseFileTypeButton->setArrowType(Qt::NoArrow);
+        horizontalSpacer_3 = new QSpacerItem(100, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout_2->addWidget(choseFileTypeButton, 0, 1, 1, 1);
+        gridLayout_2->addItem(horizontalSpacer_3, 0, 2, 1, 1);
 
         label_4 = new QLabel(frame_7);
         label_4->setObjectName(QString::fromUtf8("label_4"));
@@ -199,9 +193,14 @@ public:
 
         gridLayout_2->addWidget(label_4, 0, 0, 1, 1);
 
-        horizontalSpacer_3 = new QSpacerItem(105, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        comboBox = new QComboBox(frame_7);
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->setObjectName(QString::fromUtf8("comboBox"));
+        comboBox->setMinimumSize(QSize(85, 0));
+        comboBox->setLayoutDirection(Qt::LeftToRight);
 
-        gridLayout_2->addItem(horizontalSpacer_3, 0, 2, 1, 1);
+        gridLayout_2->addWidget(comboBox, 0, 1, 1, 1);
 
 
         gridLayout_3->addWidget(frame_7, 2, 0, 1, 1);
@@ -237,6 +236,7 @@ public:
 
         addFileNamesButton->setDefault(false);
         delteFileNamesButton->setDefault(false);
+        comboBox->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(ComDialog);
@@ -261,8 +261,10 @@ public:
         label_3->setText(QCoreApplication::translate("ComDialog", "\344\277\235\345\255\230\346\226\207\344\273\266\350\267\257\345\276\204\357\274\232", nullptr));
         choseFilePathButton->setText(QCoreApplication::translate("ComDialog", "\346\265\217\350\247\210", nullptr));
         label_2->setText(QCoreApplication::translate("ComDialog", "\345\216\213\347\274\251\346\226\207\344\273\266\350\256\276\347\275\256", nullptr));
-        choseFileTypeButton->setText(QCoreApplication::translate("ComDialog", "cpr", nullptr));
         label_4->setText(QCoreApplication::translate("ComDialog", "\347\233\256\346\240\207\346\226\207\344\273\266\346\240\274\345\274\217\357\274\232", nullptr));
+        comboBox->setItemText(0, QCoreApplication::translate("ComDialog", "dee", nullptr));
+        comboBox->setItemText(1, QCoreApplication::translate("ComDialog", "cpr", nullptr));
+
         StartButton->setText(QCoreApplication::translate("ComDialog", "\345\274\200\345\247\213", nullptr));
         CanelButton->setText(QCoreApplication::translate("ComDialog", "\345\217\226\346\266\210", nullptr));
     } // retranslateUi

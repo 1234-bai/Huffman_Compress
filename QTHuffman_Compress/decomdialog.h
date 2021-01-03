@@ -16,7 +16,6 @@ public:
     ~DecomDialog();
 
 private slots:
-    void on_choseFileTypeButton_2_triggered(QAction *arg1);
 
     void on_addFileNamesButton_2_clicked();
 

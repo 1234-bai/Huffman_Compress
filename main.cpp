@@ -81,16 +81,17 @@ void HuffmanTree_test()
 
 void FileRW_codeF_decodF_test()
 {//txt和dee的相互转换没有问题
-	FileRW file2("1234.txt");
+	FileRW file2("D:/Cplus/HuffmanCompress/HuffmanCompress/Huffman_Compress/1234.txt");
 	file2.codeF2decodF("1234.dee");
 	cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
 	//file2.getTree().getAlphaTable().print();
 	FileRW file("1234.dee");
-	file.decodF2codeF("1234_fromdee.txt");
-	cout << file.beginInx << endl;
-	cout << file.leaveBitNum << endl;
-	//file.getTree().getAlphaTable().print();
+	if (file.decodF2codeF("D:/Cplus/HuffmanCompress/1234_fromdee.txt")) {
+		cout << file.beginInx << endl;
+		cout << file.leaveBitNum << endl;
+		//file.getTree().getAlphaTable().print();
+	}
 }
 
 void FileRW_decodF_comF_test()
@@ -109,7 +110,7 @@ void FileRW_decodF_comF_test()
 
 void FileRW_codeF_comF_test()
 {
-	FileRW file("1234.pdf");
+	FileRW file("1234.txt");
 	file.codeF2comF("1234.cpr");
 	cout << file.beginInx << endl;
 	cout << file.leaveBitNum << endl;
@@ -118,5 +119,5 @@ void FileRW_codeF_comF_test()
 	cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
 	//file2.getTree().getAlphaTable().print();
-	file2.comF2codF("1234_fromcpr.pdf");
+	file2.comF2codF("1234_fromcpr.txt");
 }

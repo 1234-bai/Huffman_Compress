@@ -167,15 +167,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QTextEdit" name="textEdit_2">
-           <property name="maximumSize">
+          <widget class="QLineEdit" name="lineEdit">
+           <property name="minimumSize">
             <size>
-             <width>16777215</width>
-             <height>35</height>
+             <width>0</width>
+             <height>30</height>
             </size>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -211,30 +208,18 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_5">
-         <item row="0" column="1">
-          <widget class="QToolButton" name="choseFileTypeButton_2">
-           <property name="minimumSize">
+         <item row="0" column="2">
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
             <size>
-             <width>100</width>
-             <height>30</height>
+             <width>105</width>
+             <height>20</height>
             </size>
            </property>
-           <property name="text">
-            <string>txt</string>
-           </property>
-           <property name="popupMode">
-            <enum>QToolButton::MenuButtonPopup</enum>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-           <property name="autoRaise">
-            <bool>false</bool>
-           </property>
-           <property name="arrowType">
-            <enum>Qt::NoArrow</enum>
-           </property>
-          </widget>
+          </spacer>
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_7">
@@ -249,18 +234,25 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="2">
-          <spacer name="horizontalSpacer_5">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
+         <item row="0" column="1">
+          <widget class="QComboBox" name="comboBox">
+           <property name="minimumSize">
             <size>
-             <width>105</width>
-             <height>20</height>
+             <width>85</width>
+             <height>0</height>
             </size>
            </property>
-          </spacer>
+           <item>
+            <property name="text">
+             <string>txt</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>bmp</string>
+            </property>
+           </item>
+          </widget>
          </item>
         </layout>
        </widget>
