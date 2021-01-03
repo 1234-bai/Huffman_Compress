@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QDateTime>
 #include "../FileRW.h"
+#include <QProgressDialog>
 
 ComDialog::ComDialog(QWidget *parent) :
     QDialog(parent),
@@ -39,7 +40,7 @@ void ComDialog::on_addFileNamesButton_clicked()
     QFileInfo info(fileName);
     int row = ui->tw->rowCount();
         ui->tw->verticalHeader()->setVisible(false);   //隐藏列表头
-        ui->tw->horizontalHeader()->setVisible(true); //隐藏行表头
+        ui->tw->horizontalHeader()->setVisible(false); //隐藏行表头
         QStringList header;
         header<<"名称"<<"大小"<<"创建时间"<<"最后修改时间"<<"文件路径";
         ui->tw->setHorizontalHeaderLabels(header);
@@ -85,7 +86,7 @@ void ComDialog::on_CanelButton_clicked()
     this->close();
 }
 
-//写文件不全，是qt的问题
+//写文件不全，是深浅拷贝的问题
 void ComDialog::on_StartButton_clicked()
 {
     int currentrow = ui->tw->rowCount();
@@ -94,10 +95,19 @@ void ComDialog::on_StartButton_clicked()
         return;
     }
 
+    //进度条初始设置,暂时先这样，如果想达到，一边翻译，一边加载进度条的效果的话，要用到多线程。
+    QProgressDialog * pro = new QProgressDialog(this);
+    pro->setWindowModality(Qt::WindowModal);
+    pro->setWindowTitle(tr("Please Wait"));
+    pro->setLabelText(tr("Copressing..."));
+    pro->setCancelButtonText(tr("Cancel"));
+    pro->setRange(0,currentrow*10000);
+
+    //获得保存路径
     QString savepath = ui->lineEdit->text();
 
     for(int i = 1; i <= currentrow; ++i){
-
+        //获得源文件，目标文件路径
         QString path = ui->tw->item(i-1,4)->text();
         QString filename = ui->tw->item(i-1,0)->text();
         QString filetype = ui->comboBox->currentText();
@@ -112,7 +122,7 @@ void ComDialog::on_StartButton_clicked()
             QMessageBox::warning(this,tr("warning"),tr("can't open %1").arg(filename));
             return;
         }
-
+        //检测文件类型，选择对应的函数进行操作
         bool warn = false;
         if(filetype == "cpr"){
             warn = !fi.codeF2comF( tofile.toStdString().c_str() );
@@ -129,8 +139,17 @@ void ComDialog::on_StartButton_clicked()
             QMessageBox::warning(this,tr("Pity"),filename + tr(" save fail"));
             return;
         }
-//        ui->tw->removeRow(0);
-//        ui->tw->show();
+
+        //进度条模块
+        for(int ii = 1; ii <= 10000; ++ii){
+            pro->setValue((i-1)*10000 + ii);
+            if(pro->wasCanceled()){
+                return;
+            }
+            for(int j = 0; j < 250; j++)
+                for(int jj = 0; jj < 100; jj++);
+        }
+
     }
     QMessageBox::information(this,tr("Gragulations"),tr("all files save sucessfully"));
 }
