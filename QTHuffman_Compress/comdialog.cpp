@@ -13,6 +13,7 @@ ComDialog::ComDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->delteFileNamesButton->setEnabled(false);
+    ui->num_label->setText("0");
 }
 
 ComDialog::~ComDialog()
@@ -29,10 +30,10 @@ void ComDialog::on_addFileNamesButton_clicked()
      }
     QFileInfo info(fileName);
     int row = ui->tw->rowCount();
-        ui->tw->verticalHeader()->setVisible(false);   //隐藏列表头
+        ui->tw->verticalHeader()->setVisible(true);   //隐藏列表头
         ui->tw->horizontalHeader()->setVisible(true); //隐藏行表头
         QStringList header;
-        header<<"名称"<<"大小"<<"创建时间"<<"最后修改时间"<<"文件路径";
+        header<<"名称"<<"大小（字节）"<<"创建时间"<<"最后修改时间"<<"文件路径";
         ui->tw->setHorizontalHeaderLabels(header);
     ui->tw->setRowCount(row+1);
     ui->tw->setItem(row,0,new QTableWidgetItem(info.fileName()));
@@ -42,6 +43,11 @@ void ComDialog::on_addFileNamesButton_clicked()
     ui->tw->setItem(row,4,new QTableWidgetItem(info.path()));
     ui->tw->resizeColumnsToContents();
     ui->tw->show();
+
+    int num = ui->num_label->text().toUInt();
+    num += info.size();
+    ui->num_label->setText(QString::number(num));
+
     ui->delteFileNamesButton->setEnabled(true);
 }
 
@@ -49,14 +55,15 @@ void ComDialog::on_delteFileNamesButton_clicked()
 {
     int rows = ui->tw->rowCount();
     int currentrow = ui->tw->currentRow();
-    if(currentrow <= 0){
-        ui->tw->removeRow(rows - 1);
-    }
-    else{
-        ui->tw->removeRow(currentrow);
-    }
+    int targetrow = currentrow<=0 ? rows - 1 : currentrow;
+
+    int num = ui->num_label->text().toUInt();
+    num -= ui->tw->item(targetrow,1)->text().toInt();
+    ui->num_label->setText(QString::number(num));
+
+    ui->tw->removeRow(targetrow);
     rows--;
-    if(rows <= 1){
+    if(rows < 1){
         ui->delteFileNamesButton->setEnabled(false);
     }
 }
@@ -85,6 +92,13 @@ void ComDialog::on_StartButton_clicked()
         return;
     }
 
+    //获得保存路径
+    QString savepath = ui->lineEdit->text();
+    if(savepath.isNull()){
+        QMessageBox::warning(this,"警告","文件路径为空");
+        return;
+    }
+
     //进度条初始设置,暂时先这样，如果想达到，一边翻译，一边加载进度条的效果的话，要用到多线程。
     QProgressDialog * pro = new QProgressDialog(this);
     pro->setWindowModality(Qt::WindowModal);
@@ -92,13 +106,6 @@ void ComDialog::on_StartButton_clicked()
     pro->setLabelText(tr("Copressing..."));
     pro->setCancelButtonText(tr("Cancel"));
     pro->setRange(0,currentrow*10000);
-
-    //获得保存路径
-    QString savepath = ui->lineEdit->text();
-    if(savepath.isNull()){
-        QMessageBox::warning(this,"警告","文件路径为空");
-        return;
-    }
 
     for(int i = 1; i <= currentrow; ++i){
         //获得源文件，目标文件路径
@@ -114,6 +121,7 @@ void ComDialog::on_StartButton_clicked()
         FileRW fi;
         if(!fi.initFileRW( fromfile.toStdString().c_str()  )){
             QMessageBox::warning(this,tr("warning"),tr("can't open %1").arg(filename));
+            delete pro;
             return;
         }
         //检测文件类型，选择对应的函数进行操作
@@ -126,11 +134,13 @@ void ComDialog::on_StartButton_clicked()
         }
         else{
             QMessageBox::warning(this,tr("warning"),tr("目标文件格式错误"));
+            delete pro;
             return;
         }
 
         if(warn){
             QMessageBox::warning(this,tr("Pity"),filename + tr(" save fail"));
+            delete pro;
             return;
         }
 
@@ -138,6 +148,7 @@ void ComDialog::on_StartButton_clicked()
         for(int ii = 1; ii <= 10000; ++ii){
             pro->setValue((i-1)*10000 + ii);
             if(pro->wasCanceled()){
+                delete pro;
                 return;
             }
             for(int j = 0; j < 250; j++)

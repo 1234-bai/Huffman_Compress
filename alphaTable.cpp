@@ -1,4 +1,4 @@
-#pragma warning(disable:6385 6386)
+﻿//#pragma warning(disable:6385 6386)
 
 #include "alphaTable.h"
 #include <algorithm>
