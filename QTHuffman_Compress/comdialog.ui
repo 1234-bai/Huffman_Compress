@@ -263,7 +263,7 @@
            <property name="minimumSize">
             <size>
              <width>85</width>
-             <height>0</height>
+             <height>25</height>
             </size>
            </property>
            <property name="layoutDirection">

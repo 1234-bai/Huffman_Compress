@@ -198,7 +198,7 @@ public:
         comboBox->addItem(QString());
         comboBox->addItem(QString());
         comboBox->setObjectName(QString::fromUtf8("comboBox"));
-        comboBox->setMinimumSize(QSize(85, 0));
+        comboBox->setMinimumSize(QSize(85, 25));
         comboBox->setLayoutDirection(Qt::LeftToRight);
 
         gridLayout_2->addWidget(comboBox, 0, 1, 1, 1);

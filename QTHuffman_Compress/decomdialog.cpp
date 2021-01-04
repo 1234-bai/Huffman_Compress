@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QDateTime>
 #include "../FileRW.h"
+#include <QProgressDialog>
 
 DecomDialog::DecomDialog(QWidget *parent) :
     QDialog(parent),
@@ -64,7 +65,7 @@ void DecomDialog::on_choseFilePathButton_2_clicked()
 {
     QString filesPath = QFileDialog::getExistingDirectory(this, "chose path","../");
     if(filesPath.isNull()){
-        QMessageBox::warning(this,"警告","文件路径为空");
+        //QMessageBox::warning(this,"警告","文件路径为空");
         return;
     }
     ui->lineEdit->setText(filesPath);
@@ -84,17 +85,24 @@ void DecomDialog::on_StartButton_2_clicked()
     }
 
     QString savepath = ui->lineEdit->text();
+    if(savepath.isNull()){
+        QMessageBox::warning(this,"警告","文件路径为空");
+        return;
+    }
 
     for(int i = 1; i <= currentrow; ++i){
 
+        //进度条初始设置,暂时先这样，如果想达到，一边翻译，一边加载进度条的效果的话，要用到多线程。
+        QProgressDialog * pro = new QProgressDialog(this);
+        pro->setWindowModality(Qt::WindowModal);
+        pro->setWindowTitle(tr("Please Wait"));
+        pro->setLabelText(tr("Copressing..."));
+        pro->setCancelButtonText(tr("Cancel"));
+        pro->setRange(0,currentrow*10000);
+
         QString path = ui->tw_2->item(i-1,4)->text();
         QString filename = ui->tw_2->item(i-1,0)->text();
-
-        QString tofile = savepath + QString(QLatin1Char('/')) +
-                         filename.left( filename.lastIndexOf(".")+1 ) + ui->comboBox->currentText();
-
         QString fromfile = path + QString(QLatin1Char('/')) + filename;
-        QString filetype = filename.right( filename.size() - (filename.lastIndexOf(".")+1) );
 
         FileRW fi;
         if(!fi.initFileRW( fromfile.toStdString().c_str()  )){
@@ -102,21 +110,18 @@ void DecomDialog::on_StartButton_2_clicked()
             return;
         }
 
-        bool warn = false;
-        if(filetype == "cpr"){
-            warn = !fi.comF2codF( tofile.toStdString().c_str() );
-        }
-        else if(filetype == "dee"){
-            warn = !fi.decodF2codeF( tofile.toStdString().c_str() );
-        }
-        else{
-            QMessageBox::warning(this,tr("warning"),filetype + tr(" 目标文件格式错误"));
+        if(!fi.to_codeF(savepath.toStdString().c_str()) ){
+            QMessageBox::warning(this,tr("fail"),tr("%1 decompress fail").arg(filename));
             return;
         }
 
-        if(warn){
-            QMessageBox::warning(this,tr("Pity"),filename + tr(" save fail"));
-            return;
+        for(int ii = 1; ii <= 10000; ++ii){
+            pro->setValue((i-1)*10000 + ii);
+            if(pro->wasCanceled()){
+                return;
+            }
+            for(int j = 0; j < 250; j++)
+                for(int jj = 0; jj < 100; jj++);
         }
 
     }

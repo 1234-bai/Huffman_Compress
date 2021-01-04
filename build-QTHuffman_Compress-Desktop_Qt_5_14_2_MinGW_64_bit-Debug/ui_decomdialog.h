@@ -11,7 +11,6 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
@@ -41,17 +40,12 @@ public:
     QPushButton *delteFileNamesButton_2;
     QFrame *frame_3;
     QGridLayout *gridLayout_4;
+    QLabel *label_6;
     QFrame *frame_8;
     QHBoxLayout *horizontalLayout_5;
     QLabel *label_5;
     QLineEdit *lineEdit;
     QPushButton *choseFilePathButton_2;
-    QLabel *label_6;
-    QFrame *frame_9;
-    QGridLayout *gridLayout_5;
-    QSpacerItem *horizontalSpacer_5;
-    QLabel *label_7;
-    QComboBox *comboBox;
     QFrame *frame_4;
     QHBoxLayout *horizontalLayout_4;
     QSpacerItem *horizontalSpacer_4;
@@ -62,7 +56,7 @@ public:
     {
         if (DecomDialog->objectName().isEmpty())
             DecomDialog->setObjectName(QString::fromUtf8("DecomDialog"));
-        DecomDialog->resize(873, 716);
+        DecomDialog->resize(870, 689);
         verticalLayout = new QVBoxLayout(DecomDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         frame = new QFrame(DecomDialog);
@@ -137,6 +131,15 @@ public:
         frame_3->setFrameShadow(QFrame::Raised);
         gridLayout_4 = new QGridLayout(frame_3);
         gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
+        label_6 = new QLabel(frame_3);
+        label_6->setObjectName(QString::fromUtf8("label_6"));
+        QFont font1;
+        font1.setBold(true);
+        font1.setWeight(75);
+        label_6->setFont(font1);
+
+        gridLayout_4->addWidget(label_6, 0, 0, 1, 1);
+
         frame_8 = new QFrame(frame_3);
         frame_8->setObjectName(QString::fromUtf8("frame_8"));
         frame_8->setFrameShape(QFrame::StyledPanel);
@@ -163,42 +166,6 @@ public:
 
 
         gridLayout_4->addWidget(frame_8, 1, 0, 1, 1);
-
-        label_6 = new QLabel(frame_3);
-        label_6->setObjectName(QString::fromUtf8("label_6"));
-        QFont font1;
-        font1.setBold(true);
-        font1.setWeight(75);
-        label_6->setFont(font1);
-
-        gridLayout_4->addWidget(label_6, 0, 0, 1, 1);
-
-        frame_9 = new QFrame(frame_3);
-        frame_9->setObjectName(QString::fromUtf8("frame_9"));
-        frame_9->setFrameShape(QFrame::StyledPanel);
-        frame_9->setFrameShadow(QFrame::Raised);
-        gridLayout_5 = new QGridLayout(frame_9);
-        gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
-        horizontalSpacer_5 = new QSpacerItem(105, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        gridLayout_5->addItem(horizontalSpacer_5, 0, 2, 1, 1);
-
-        label_7 = new QLabel(frame_9);
-        label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setMinimumSize(QSize(60, 0));
-
-        gridLayout_5->addWidget(label_7, 0, 0, 1, 1);
-
-        comboBox = new QComboBox(frame_9);
-        comboBox->addItem(QString());
-        comboBox->addItem(QString());
-        comboBox->setObjectName(QString::fromUtf8("comboBox"));
-        comboBox->setMinimumSize(QSize(85, 0));
-
-        gridLayout_5->addWidget(comboBox, 0, 1, 1, 1);
-
-
-        gridLayout_4->addWidget(frame_9, 2, 0, 1, 1);
 
 
         verticalLayout->addWidget(frame_3);
@@ -248,13 +215,9 @@ public:
         ___qtablewidgetitem4->setText(QCoreApplication::translate("DecomDialog", "\346\226\207\344\273\266\350\267\257\345\276\204", nullptr));
         addFileNamesButton_2->setText(QCoreApplication::translate("DecomDialog", "\346\267\273\345\212\240", nullptr));
         delteFileNamesButton_2->setText(QCoreApplication::translate("DecomDialog", "\345\210\240\351\231\244", nullptr));
+        label_6->setText(QCoreApplication::translate("DecomDialog", "\350\247\243\345\216\213\346\226\207\344\273\266\350\256\276\347\275\256", nullptr));
         label_5->setText(QCoreApplication::translate("DecomDialog", "\346\226\207\344\273\266\350\247\243\345\216\213\350\267\257\345\276\204\345\217\212\345\220\215\347\247\260\357\274\232", nullptr));
         choseFilePathButton_2->setText(QCoreApplication::translate("DecomDialog", "\346\265\217\350\247\210", nullptr));
-        label_6->setText(QCoreApplication::translate("DecomDialog", "\350\247\243\345\216\213\346\226\207\344\273\266\350\256\276\347\275\256", nullptr));
-        label_7->setText(QCoreApplication::translate("DecomDialog", "\347\233\256\346\240\207\346\226\207\344\273\266\346\240\274\345\274\217\357\274\232 ", nullptr));
-        comboBox->setItemText(0, QCoreApplication::translate("DecomDialog", "txt", nullptr));
-        comboBox->setItemText(1, QCoreApplication::translate("DecomDialog", "bmp", nullptr));
-
         StartButton_2->setText(QCoreApplication::translate("DecomDialog", "\345\274\200\345\247\213", nullptr));
         CanelButton_2->setText(QCoreApplication::translate("DecomDialog", "\345\217\226\346\266\210", nullptr));
     } // retranslateUi

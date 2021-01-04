@@ -1,4 +1,4 @@
-﻿#pragma warning(disable:6385 6386 26451)
+﻿//#pragma warning(disable:6385 6386 26451)
 
 #include "FileRW.h"
 #include <fstream>
@@ -157,11 +157,11 @@ bool FileRW::to_codeF(const char* filePath)
       //  return false;
     //改变名字后缀
     int num = truename.rfind('.') + 1;
-    if (num < 0 || num >= truename.length()) return false;
+    if (num < 0 || num >= (int)truename.length()) return false;
     truename = std::string(filePath) + std::string("/") + truename.substr(0, num) + oriType;
 
     if (thisType == "dee") {
-        if (!decodF2comF(truename.c_str())) return false;
+        if (!decodF2codeF(truename.c_str())) return false;
     }
     else if (thisType == "cpr") {
         if (!comF2codF(truename.c_str())) return false;

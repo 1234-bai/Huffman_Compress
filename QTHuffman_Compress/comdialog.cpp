@@ -22,7 +22,7 @@ ComDialog::~ComDialog()
 
 void ComDialog::on_addFileNamesButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "chose files", ".../", "( *.txt);;(*.bmp)");
+    QString fileName = QFileDialog::getOpenFileName(this, "chose files", ".../");
     if(fileName.isNull()){
         //QMessageBox::warning(this,tr("warning"),tr("the file is not exist"));
         return;
@@ -96,7 +96,7 @@ void ComDialog::on_StartButton_clicked()
     //获得保存路径
     QString savepath = ui->lineEdit->text();
     if(savepath.isNull()){
-        //QMessageBox::warning(this,"警告","文件路径为空");
+        QMessageBox::warning(this,"警告","文件路径为空");
         return;
     }
 
