@@ -18,12 +18,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_deButton_clicked()
 {
-    ComDialog* a = new ComDialog(this);
+    ComDialog* a = new ComDialog();
     a->show();
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    DecomDialog *a = new DecomDialog(this);
+    DecomDialog *a = new DecomDialog();
     a->show();
 }
