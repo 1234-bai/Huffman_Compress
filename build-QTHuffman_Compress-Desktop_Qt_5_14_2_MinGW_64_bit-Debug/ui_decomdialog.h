@@ -152,6 +152,7 @@ public:
         lineEdit = new QLineEdit(frame_8);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
         lineEdit->setMinimumSize(QSize(0, 30));
+        lineEdit->setReadOnly(true);
 
         horizontalLayout_5->addWidget(lineEdit);
 
@@ -233,7 +234,7 @@ public:
 
     void retranslateUi(QDialog *DecomDialog)
     {
-        DecomDialog->setWindowTitle(QCoreApplication::translate("DecomDialog", "Dialog", nullptr));
+        DecomDialog->setWindowTitle(QCoreApplication::translate("DecomDialog", "\346\226\207\344\273\266\350\247\243\345\216\213", nullptr));
         label_8->setText(QCoreApplication::translate("DecomDialog", "\346\226\260\345\212\240\350\247\243\345\216\213\346\226\207\344\273\266", nullptr));
         QTableWidgetItem *___qtablewidgetitem = tw_2->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QCoreApplication::translate("DecomDialog", "\345\220\215\347\247\260", nullptr));

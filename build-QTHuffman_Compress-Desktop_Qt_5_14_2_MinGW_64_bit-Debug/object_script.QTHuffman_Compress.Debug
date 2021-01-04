@@ -6,6 +6,7 @@ debug/comdialog.o
 debug/decomdialog.o
 debug/main.o
 debug/mainwindow.o
+debug/qrc_pic.o
 debug/moc_comdialog.o
 debug/moc_decomdialog.o
 debug/moc_mainwindow.o

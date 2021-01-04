@@ -94,7 +94,7 @@ void DecomDialog::on_StartButton_2_clicked()
                          filename.left( filename.lastIndexOf(".")+1 ) + ui->comboBox->currentText();
 
         QString fromfile = path + QString(QLatin1Char('/')) + filename;
-        QString filetype = filename.right( filename.lastIndexOf(".") );
+        QString filetype = filename.right( filename.size() - (filename.lastIndexOf(".")+1) );
 
         FileRW fi;
         if(!fi.initFileRW( fromfile.toStdString().c_str()  )){
@@ -103,10 +103,10 @@ void DecomDialog::on_StartButton_2_clicked()
         }
 
         bool warn = false;
-        if(filetype == ".cpr"){
+        if(filetype == "cpr"){
             warn = !fi.comF2codF( tofile.toStdString().c_str() );
         }
-        else if(filetype == ".dee"){
+        else if(filetype == "dee"){
             warn = !fi.decodF2codeF( tofile.toStdString().c_str() );
         }
         else{
@@ -118,8 +118,7 @@ void DecomDialog::on_StartButton_2_clicked()
             QMessageBox::warning(this,tr("Pity"),filename + tr(" save fail"));
             return;
         }
-//        ui->tw->removeRow(0);
-//        ui->tw->show();
+
     }
     QMessageBox::information(this,tr("Gragulations"),tr("all files save sucessfully"));
 }

@@ -62,7 +62,7 @@ public:
     {
         if (ComDialog->objectName().isEmpty())
             ComDialog->setObjectName(QString::fromUtf8("ComDialog"));
-        ComDialog->resize(907, 776);
+        ComDialog->resize(918, 744);
         verticalLayout_2 = new QVBoxLayout(ComDialog);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         frame = new QFrame(ComDialog);
@@ -157,6 +157,7 @@ public:
         lineEdit = new QLineEdit(frame_6);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
         lineEdit->setMinimumSize(QSize(0, 30));
+        lineEdit->setReadOnly(true);
 
         horizontalLayout_3->addWidget(lineEdit);
 
@@ -210,6 +211,11 @@ public:
 
         frame_4 = new QFrame(ComDialog);
         frame_4->setObjectName(QString::fromUtf8("frame_4"));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(frame_4->sizePolicy().hasHeightForWidth());
+        frame_4->setSizePolicy(sizePolicy);
         frame_4->setFrameShape(QFrame::StyledPanel);
         frame_4->setFrameShadow(QFrame::Raised);
         horizontalLayout_2 = new QHBoxLayout(frame_4);

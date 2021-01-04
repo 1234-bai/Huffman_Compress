@@ -13,16 +13,6 @@ ComDialog::ComDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->delteFileNamesButton->setEnabled(false);
-//    ui->tw->setColumnCount(5);
-//    ui->tw->verticalHeader()->setVisible(true);   //隐藏列表头
-//    ui->tw->horizontalHeader()->setVisible(false); //隐藏行表头
-//    QStringList header;
-//    header<<"名称"<<"大小"<<"创建时间"<<"最后修改时间"<<"文件路径";
-//    ui->tw->setHorizontalHeaderLabels(header);
-//    ui->tw->setColumnWidth(2,200);
-//    ui->tw->setColumnWidth(3,200);
-//    ui->tw->setColumnWidth(4,400);
-//    ui->tw->show();
 }
 
 ComDialog::~ComDialog()
@@ -34,13 +24,13 @@ void ComDialog::on_addFileNamesButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "chose files", ".../", "( *.txt);;(*.bmp)");
     if(fileName.isNull()){
-        QMessageBox::warning(this,tr("warning"),tr("the file is not exist"));
+        //QMessageBox::warning(this,tr("warning"),tr("the file is not exist"));
         return;
      }
     QFileInfo info(fileName);
     int row = ui->tw->rowCount();
         ui->tw->verticalHeader()->setVisible(false);   //隐藏列表头
-        ui->tw->horizontalHeader()->setVisible(false); //隐藏行表头
+        ui->tw->horizontalHeader()->setVisible(true); //隐藏行表头
         QStringList header;
         header<<"名称"<<"大小"<<"创建时间"<<"最后修改时间"<<"文件路径";
         ui->tw->setHorizontalHeaderLabels(header);
@@ -74,8 +64,8 @@ void ComDialog::on_delteFileNamesButton_clicked()
 void ComDialog::on_choseFilePathButton_clicked()
 {
     QString filesPath = QFileDialog::getExistingDirectory(this, "chose path","../");
-    if(filesPath.isNull()){
-        QMessageBox::warning(this,"警告","文件路径为空");
+    if(filesPath.isEmpty()){
+        //QMessageBox::warning(this,"警告","文件路径为空");
         return;
     }
     ui->lineEdit->setText(filesPath);
@@ -105,6 +95,10 @@ void ComDialog::on_StartButton_clicked()
 
     //获得保存路径
     QString savepath = ui->lineEdit->text();
+    if(savepath.isNull()){
+        //QMessageBox::warning(this,"警告","文件路径为空");
+        return;
+    }
 
     for(int i = 1; i <= currentrow; ++i){
         //获得源文件，目标文件路径
