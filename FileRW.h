@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-
 #include "HuffmanTree.h" 
 
 class FileRW

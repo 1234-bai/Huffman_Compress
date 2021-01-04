@@ -4,14 +4,16 @@
 #include <cstring>
 #include "BitDeal.h"
 
+#define chn 4
+
 //问题一：两种计算剩余bit的方法得到的结果不一样
 //问题二：在转换原来的文件的时候，即使是相同的bit数，转换结果也不对
 void FileRW::write_headData2(std::ofstream& fout, const char* a,const char* tofile)
 {
-    fout.seekp(0);
-    fout.write(a, sizeof(a));
+    int step = strlen(a) + 1;
+    fout.write(a, step);
     fout.write((char*)&leaveBitNum, sizeof(leaveBitNum));
-    Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a) + sizeof(leaveBitNum));
+    Tree.getAlphaTable().writeHdataToFile(tofile, step + sizeof(leaveBitNum));
 }
 
 FileRW::FileRW(const char* filename)
@@ -41,11 +43,16 @@ bool FileRW::initFileRW(const char* filename)
     std::ifstream fin(filename, std::ios::in | std::ios::binary);
     if (!fin.is_open()) return false;
 
-    char a[4] = { 0 };
-    fin.read(a, sizeof(a));
+ 
     std::string namestr(filename);
-    namestr = namestr.substr(namestr.length() - 3, 3);
+    int indx = namestr.rfind('.', namestr.length()) + 1;
+    len = namestr.length() - indx;
+    namestr = namestr.substr(indx, len);
+
+    char a[chn] = { 0 };
+    fin.read(a, sizeof(a));
     std::string headstr(a);
+
     if (headstr == namestr) {
         if (headstr == "cpr")
             fileType = 2;
@@ -53,10 +60,11 @@ bool FileRW::initFileRW(const char* filename)
             fileType = 3;
         else return false;
     }
-    else if (namestr == "txt" || namestr == "bmp")
-        fileType = 1;
+    //else if (namestr == "txt" || namestr == "bmp")
+      //  fileType = 1;
     else {
-        return false;
+        fileType = 1;
+        //return false;
     }
 
     if (fileType == 1) {
@@ -109,11 +117,8 @@ bool FileRW::codeF2decodF(const char* tofile)
 
     std::ofstream fout(tofile, std::ios::out|std::ios::binary);
     if (!fout.is_open()) return false;
-    char a[4] = "dee";
-    fout.write(a, sizeof(a));
-    fout.write((char*)&leaveBitNum, sizeof(leaveBitNum));
-    Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a) + sizeof(leaveBitNum));
-    //write_headData2(fout, "dee", tofile);
+
+    write_headData2(fout, "dee", tofile);
     fout.seekp(beginInx);
 
     std::ifstream fin(filename, std::ios::in|std::ios::binary);
@@ -139,10 +144,7 @@ bool FileRW::decodF2comF(const char* tofile)
     std::ofstream fout(tofile, std::ios::out | std::ios::binary);
     if (!fout.is_open()) return false;
 
-    char a[4] = "cpr";
-    fout.write(a,sizeof(a));
-    fout.write((char*)&leaveBitNum, sizeof(leaveBitNum));
-    Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a) + sizeof(leaveBitNum));
+    write_headData2(fout, "cpr", tofile);
     fout.seekp(beginInx);
 
     std::ifstream fin(filename, std::ios::in | std::ios::binary);
@@ -176,10 +178,7 @@ bool FileRW::comF2decodF(const char* tofile)
     std::ofstream fout(tofile, std::ios::out | std::ios::binary);
     if (!fout.is_open()) return false;
 
-    char a[4] = "dee";
-    fout.write(a, sizeof(a));
-    fout.write((char*)&leaveBitNum, sizeof(leaveBitNum));
-    Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a) + sizeof(leaveBitNum));
+    write_headData2(fout, "dee", tofile);
     fout.seekp(beginInx);
 
 
@@ -189,6 +188,7 @@ bool FileRW::comF2decodF(const char* tofile)
 
     BitDeal BD;
     char ch;
+
     //bitnum表示要得到的那个字符的下标
     int bitnum = 9;
     unsigned num;
@@ -242,10 +242,7 @@ bool FileRW::codeF2comF(const char* tofile)
     std::ifstream fin(filename, std::ios::in | std::ios::binary);
     if (!fin.is_open()) return false;
 
-    char a[4] = "cpr";
-    fout.write(a, sizeof(a));
-    fout.write((char*)&leaveBitNum, sizeof(leaveBitNum));
-    Tree.getAlphaTable().writeHdataToFile(tofile, sizeof(a) + sizeof(leaveBitNum));
+    write_headData2(fout, "cpr", tofile);
     fout.seekp(beginInx);
 
     //

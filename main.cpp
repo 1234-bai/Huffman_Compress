@@ -1,3 +1,6 @@
+//随机和人工输入数据模块，未添加。
+//考虑在压缩文件中加入源文件格式，方便解压
+
 #include <iostream>
 #include "alphaTable.h"
 #include <locale>
@@ -80,14 +83,14 @@ void HuffmanTree_test()
 }
 
 void FileRW_codeF_decodF_test()
-{//txt和dee的相互转换没有问题
-	FileRW file2("D:/Cplus/HuffmanCompress/HuffmanCompress/Huffman_Compress/1234.txt");
+{
+	FileRW file2("1234.txt");
 	file2.codeF2decodF("1234.dee");
 	cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
 	//file2.getTree().getAlphaTable().print();
 	FileRW file("1234.dee");
-	if (file.decodF2codeF("D:/Cplus/HuffmanCompress/1234_fromdee.txt")) {
+	if (file.decodF2codeF("1234_fromdee.txt")) {
 		cout << file.beginInx << endl;
 		cout << file.leaveBitNum << endl;
 		//file.getTree().getAlphaTable().print();
@@ -95,7 +98,7 @@ void FileRW_codeF_decodF_test()
 }
 
 void FileRW_decodF_comF_test()
-{//dee在向cpr转换时会出问题
+{
 	FileRW file("1234.dee");
 	file.decodF2comF("1234dee2cpr.cpr");
 	cout << file.beginInx << endl;
