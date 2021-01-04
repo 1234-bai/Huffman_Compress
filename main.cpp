@@ -22,6 +22,8 @@ void FileRW_decodF_comF_test();
 
 void FileRW_codeF_comF_test();
 
+void FileRW_to_codeF_test();
+
 int main()
 {
 	int m;
@@ -40,6 +42,8 @@ int main()
 			FileRW_decodF_comF_test();
 		else if (m == 6)
 			FileRW_codeF_comF_test();
+		else if (m == 7)
+			FileRW_to_codeF_test();
 	}
 	return 0;
 }
@@ -88,11 +92,15 @@ void FileRW_codeF_decodF_test()
 	file2.codeF2decodF("1234.dee");
 	cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
+	cout << file2.thisType << endl;
+	cout << file2.oriType << endl;
 	//file2.getTree().getAlphaTable().print();
 	FileRW file("1234.dee");
 	if (file.decodF2codeF("1234_fromdee.txt")) {
 		cout << file.beginInx << endl;
 		cout << file.leaveBitNum << endl;
+		cout << file.thisType << endl;
+		cout << file.oriType << endl;
 		//file.getTree().getAlphaTable().print();
 	}
 }
@@ -103,11 +111,15 @@ void FileRW_decodF_comF_test()
 	file.decodF2comF("1234dee2cpr.cpr");
 	cout << file.beginInx << endl;
 	cout << file.leaveBitNum << endl;
+	cout << file.thisType << endl;
+	cout << file.oriType << endl;
 	//file.getTree().getAlphaTable().print();
 	FileRW file2("1234dee2cpr.cpr");
 	//file2.getTree().getAlphaTable().print();
 	cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
+	cout << file2.thisType << endl;
+	cout << file2.oriType << endl;
 	file2.comF2decodF("1234_fromcpr.dee");
 }
 
@@ -117,10 +129,24 @@ void FileRW_codeF_comF_test()
 	file.codeF2comF("1234.cpr");
 	cout << file.beginInx << endl;
 	cout << file.leaveBitNum << endl;
+	cout << file.thisType << endl;
+	cout << file.oriType << endl;
 	//file.getTree().getAlphaTable().print();
 	FileRW file2("1234.cpr");
 	cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
 	//file2.getTree().getAlphaTable().print();
+	cout << file2.thisType << endl;
+	cout << file2.oriType << endl;
 	file2.comF2codF("1234_fromcpr.txt");
+}
+
+void FileRW_to_codeF_test()
+{
+	FileRW file("1234.cpr");
+	cout << file.beginInx << endl;
+	cout << file.leaveBitNum << endl;
+	cout << file.thisType << endl;
+	cout << file.oriType << endl;
+	file.to_codeF("D:\\Cplus\\HuffmanCompress/HuffmanCompress");
 }
