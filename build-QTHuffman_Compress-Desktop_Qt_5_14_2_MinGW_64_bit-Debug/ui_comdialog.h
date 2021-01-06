@@ -36,6 +36,8 @@ public:
     QTableWidget *tw;
     QFrame *frame_2;
     QHBoxLayout *horizontalLayout;
+    QLabel *label_5;
+    QLabel *num_label;
     QSpacerItem *horizontalSpacer;
     QPushButton *addFileNamesButton;
     QPushButton *delteFileNamesButton;
@@ -111,6 +113,17 @@ public:
         frame_2->setFrameShadow(QFrame::Raised);
         horizontalLayout = new QHBoxLayout(frame_2);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        label_5 = new QLabel(frame_2);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+
+        horizontalLayout->addWidget(label_5);
+
+        num_label = new QLabel(frame_2);
+        num_label->setObjectName(QString::fromUtf8("num_label"));
+        num_label->setMinimumSize(QSize(120, 0));
+
+        horizontalLayout->addWidget(num_label);
+
         horizontalSpacer = new QSpacerItem(474, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
@@ -262,6 +275,8 @@ public:
         ___qtablewidgetitem3->setText(QCoreApplication::translate("ComDialog", "\346\234\200\345\220\216\344\277\256\346\224\271\346\227\266\351\227\264", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = tw->horizontalHeaderItem(4);
         ___qtablewidgetitem4->setText(QCoreApplication::translate("ComDialog", "\346\226\207\344\273\266\350\267\257\345\276\204", nullptr));
+        label_5->setText(QCoreApplication::translate("ComDialog", "\346\200\273\345\244\247\345\260\217\357\274\210\345\255\227\350\212\202\357\274\211\357\274\232", nullptr));
+        num_label->setText(QCoreApplication::translate("ComDialog", "0", nullptr));
         addFileNamesButton->setText(QCoreApplication::translate("ComDialog", "\346\267\273\345\212\240", nullptr));
         delteFileNamesButton->setText(QCoreApplication::translate("ComDialog", "\345\210\240\351\231\244", nullptr));
         label_3->setText(QCoreApplication::translate("ComDialog", "\344\277\235\345\255\230\346\226\207\344\273\266\350\267\257\345\276\204\357\274\232", nullptr));

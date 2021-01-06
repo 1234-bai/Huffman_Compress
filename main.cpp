@@ -90,14 +90,14 @@ void FileRW_codeF_decodF_test()
 {
 	FileRW file2("1234.txt");
 	file2.codeF2decodF("1234.dee");
-	cout << file2.beginInx << endl;
+	//cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
 	cout << file2.thisType << endl;
 	cout << file2.oriType << endl;
 	//file2.getTree().getAlphaTable().print();
 	FileRW file("1234.dee");
 	if (file.decodF2codeF("1234_fromdee.txt")) {
-		cout << file.beginInx << endl;
+		//cout << file.beginInx << endl;
 		cout << file.leaveBitNum << endl;
 		cout << file.thisType << endl;
 		cout << file.oriType << endl;
@@ -109,14 +109,14 @@ void FileRW_decodF_comF_test()
 {
 	FileRW file("1234.dee");
 	file.decodF2comF("1234dee2cpr.cpr");
-	cout << file.beginInx << endl;
+	//cout << file.beginInx << endl;
 	cout << file.leaveBitNum << endl;
 	cout << file.thisType << endl;
 	cout << file.oriType << endl;
 	//file.getTree().getAlphaTable().print();
 	FileRW file2("1234dee2cpr.cpr");
 	//file2.getTree().getAlphaTable().print();
-	cout << file2.beginInx << endl;
+	//cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
 	cout << file2.thisType << endl;
 	cout << file2.oriType << endl;
@@ -127,13 +127,13 @@ void FileRW_codeF_comF_test()
 {
 	FileRW file("1234.txt");
 	file.codeF2comF("1234.cpr");
-	cout << file.beginInx << endl;
+	//cout << file.beginInx << endl;
 	cout << file.leaveBitNum << endl;
 	cout << file.thisType << endl;
 	cout << file.oriType << endl;
 	//file.getTree().getAlphaTable().print();
 	FileRW file2("1234.cpr");
-	cout << file2.beginInx << endl;
+	//cout << file2.beginInx << endl;
 	cout << file2.leaveBitNum << endl;
 	//file2.getTree().getAlphaTable().print();
 	cout << file2.thisType << endl;
@@ -144,9 +144,11 @@ void FileRW_codeF_comF_test()
 void FileRW_to_codeF_test()
 {
 	FileRW file("1234.cpr");
-	cout << file.beginInx << endl;
+	FileRW file2("3456.cpr");
+	//cout << file.beginInx << endl;
 	cout << file.leaveBitNum << endl;
 	cout << file.thisType << endl;
 	cout << file.oriType << endl;
-	file.to_codeF("D:\\Cplus\\HuffmanCompress/HuffmanCompress");
+	file.to_codeF("D:\\Cplus\\HuffmanCompress\\HuffmanCompress");
+	file2.to_codeF("D:\\Cplus\\HuffmanCompress\\HuffmanCompress");
 }

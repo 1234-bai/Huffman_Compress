@@ -35,6 +35,8 @@ public:
     QTableWidget *tw_2;
     QFrame *frame_5;
     QHBoxLayout *horizontalLayout_6;
+    QLabel *label;
+    QLabel *num_label;
     QSpacerItem *horizontalSpacer_6;
     QPushButton *addFileNamesButton_2;
     QPushButton *delteFileNamesButton_2;
@@ -103,6 +105,17 @@ public:
         frame_5->setFrameShadow(QFrame::Raised);
         horizontalLayout_6 = new QHBoxLayout(frame_5);
         horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
+        label = new QLabel(frame_5);
+        label->setObjectName(QString::fromUtf8("label"));
+
+        horizontalLayout_6->addWidget(label);
+
+        num_label = new QLabel(frame_5);
+        num_label->setObjectName(QString::fromUtf8("num_label"));
+        num_label->setMinimumSize(QSize(120, 0));
+
+        horizontalLayout_6->addWidget(num_label);
+
         horizontalSpacer_6 = new QSpacerItem(474, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_6->addItem(horizontalSpacer_6);
@@ -213,6 +226,8 @@ public:
         ___qtablewidgetitem3->setText(QCoreApplication::translate("DecomDialog", "\346\234\200\345\220\216\344\277\256\346\224\271\346\227\266\351\227\264", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = tw_2->horizontalHeaderItem(4);
         ___qtablewidgetitem4->setText(QCoreApplication::translate("DecomDialog", "\346\226\207\344\273\266\350\267\257\345\276\204", nullptr));
+        label->setText(QCoreApplication::translate("DecomDialog", "\346\200\273\345\244\247\345\260\217\357\274\210\345\255\227\350\212\202\357\274\211\357\274\232", nullptr));
+        num_label->setText(QCoreApplication::translate("DecomDialog", "0", nullptr));
         addFileNamesButton_2->setText(QCoreApplication::translate("DecomDialog", "\346\267\273\345\212\240", nullptr));
         delteFileNamesButton_2->setText(QCoreApplication::translate("DecomDialog", "\345\210\240\351\231\244", nullptr));
         label_6->setText(QCoreApplication::translate("DecomDialog", "\350\247\243\345\216\213\346\226\207\344\273\266\350\256\276\347\275\256", nullptr));
