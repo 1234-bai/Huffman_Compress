@@ -231,7 +231,7 @@ public:
         addFileNamesButton_2->setText(QCoreApplication::translate("DecomDialog", "\346\267\273\345\212\240", nullptr));
         delteFileNamesButton_2->setText(QCoreApplication::translate("DecomDialog", "\345\210\240\351\231\244", nullptr));
         label_6->setText(QCoreApplication::translate("DecomDialog", "\350\247\243\345\216\213\346\226\207\344\273\266\350\256\276\347\275\256", nullptr));
-        label_5->setText(QCoreApplication::translate("DecomDialog", "\346\226\207\344\273\266\350\247\243\345\216\213\350\267\257\345\276\204\345\217\212\345\220\215\347\247\260\357\274\232", nullptr));
+        label_5->setText(QCoreApplication::translate("DecomDialog", "\346\226\207\344\273\266\350\247\243\345\216\213\350\267\257\345\276\204\357\274\232", nullptr));
         choseFilePathButton_2->setText(QCoreApplication::translate("DecomDialog", "\346\265\217\350\247\210", nullptr));
         StartButton_2->setText(QCoreApplication::translate("DecomDialog", "\345\274\200\345\247\213", nullptr));
         CanelButton_2->setText(QCoreApplication::translate("DecomDialog", "\345\217\226\346\266\210", nullptr));

@@ -195,7 +195,7 @@
             </size>
            </property>
            <property name="text">
-            <string>文件解压路径及名称：</string>
+            <string>文件解压路径：</string>
            </property>
           </widget>
          </item>

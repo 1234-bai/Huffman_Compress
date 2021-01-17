@@ -1,4 +1,4 @@
-﻿//#pragma warning(disable:6385 6386 26451)
+﻿#pragma warning(disable:6385 6386 26451)
 
 #include "FileRW.h"
 #include <fstream>
@@ -174,15 +174,20 @@ bool FileRW::codeF2decodF(const char* tofile)
 {
     if (fileType != 1) return false;
 
+    //打开目标文件
     std::ofstream fout(tofile, std::ios::out|std::ios::binary);
     if (!fout.is_open()) return false;
 
+    //写入头数据
     write_headData2(fout, "dee", tofile);
+    //定位到01编码写入位置
     fout.seekp(beginInx);
 
+    //打开原码文件
     std::ifstream fin(filename, std::ios::in|std::ios::binary);
     if(!fin.is_open())	return false;
 
+    //写入编码
     char ch;
     while (fin.get(ch)) {
         std::string code = Tree.Ch_2_01Str(ch);
@@ -199,16 +204,17 @@ bool FileRW::codeF2decodF(const char* tofile)
 bool FileRW::decodF2comF(const char* tofile)
 {
     if (fileType != 3) return false;
-
+    //打开目标文件
     std::ofstream fout(tofile, std::ios::out | std::ios::binary);
     if (!fout.is_open()) return false;
 
-    write_headData2(fout, "cpr", tofile);
-    fout.seekp(beginInx);
+    write_headData2(fout, "cpr", tofile);   //写入头数据
+    fout.seekp(beginInx);   //定位到原码开始的位置
 
+    //打开译码文件
     std::ifstream fin(filename, std::ios::in | std::ios::binary);
     if (!fin.is_open()) return false;
-    fin.seekg(beginInx);
+    fin.seekg(beginInx);    //定位到译码开始读取的位置
 
     BitDeal BD;
     char bit;
@@ -239,7 +245,6 @@ bool FileRW::comF2decodF(const char* tofile)
 
     write_headData2(fout, "dee", tofile);
     fout.seekp(beginInx);
-
 
     std::ifstream fin(filename, std::ios::in | std::ios::binary);
     if (!fin.is_open()) return false;
@@ -294,34 +299,33 @@ bool FileRW::codeF2comF(const char* tofile)
 {
     if (fileType != 1) return false;
 
-    std::ofstream fout(tofile, std::ios::out | std::ios::binary);
+    std::ofstream fout(tofile, std::ios::out | std::ios::binary);   //打开目标文件
     if (!fout.is_open()) return false;
-
-    std::ifstream fin(filename, std::ios::in | std::ios::binary);
+    std::ifstream fin(filename, std::ios::in | std::ios::binary);   //打开原码文件
     if (!fin.is_open()) return false;
 
-    write_headData2(fout, "cpr", tofile);
-    fout.seekp(beginInx);
+    write_headData2(fout, "cpr", tofile);   //写入头数据
+    fout.seekp(beginInx);   //定位到压缩码开始写入的位置
 
-    //
+    //开始译码并压缩
     BitDeal BD;
     char ch;
     char value;
     int bitnum = 1;
     while (fin.read(&ch,sizeof(char))) {
-        std::string code = this->Tree.Ch_2_01Str(ch);
+        std::string code = this->Tree.Ch_2_01Str(ch);   //获得字符对应的01编码
         for (const auto& it : code) {
-            //
-            BD.setBit(value, bitnum, it - '0');
-            if (bitnum >= 8) {
+            BD.setBit(value, bitnum, it - '0');     //修改第bitnum位的值
+            if (bitnum >= 8) {//修改满8位，写入到目标文件
                 fout.write(&value, sizeof(value));
                 bitnum = 1;
             }
             else bitnum++;
         }
-        if (fin.peek() == EOF) {
+        if (fin.peek() == EOF) {//读取到文件尾
+            //计算冗余位数
             if (bitnum == 1) leaveBitNum = 0;
-            else {
+            else {//如果即将改变的位序超过1，将最后几个价值位写入，并计算冗余位
                 fout.write(&value, sizeof(value));
                 leaveBitNum = 9 - bitnum;
             }
@@ -349,20 +353,22 @@ bool FileRW::comF2codF(const char* tofile)
 {
     if (fileType != 2) return false;
 
+    //打开文件
     std::ofstream fout(tofile, std::ios::out | std::ios::binary);
     if (!fout.is_open()) return false;
     std::ifstream fin(filename, std::ios::in | std::ios::binary);
     if (!fin.is_open()) return false;
 
-    fin.seekg(beginInx);
+    fin.seekg(beginInx);    //定位到原码写入位置
 
     BitDeal BD;
     char ch;
-    //
+    //bitnum表示要读取的第几位
     int bitnum = 9;
     int num;
+    //未到文件尾，或者最后一个字节仍有价值位未读取
     while ( fin.peek() != EOF || (bitnum <= (int)sizeof(char)*8 - leaveBitNum)) {
-        if (bitnum > 8) {
+        if (bitnum > 8) {//说明一个char类型已经读完，该读入新的字符了
             fin.read(&ch, sizeof(char));
             bitnum = 1;
         }

@@ -1,4 +1,4 @@
-﻿//#pragma warning(disable:6385 6386)
+﻿#pragma warning(disable:6385 6386 26451)
 
 #include "alphaTable.h"
 #include <algorithm>
@@ -36,20 +36,23 @@ bool alphaTable::init(const char* filename, bool isComFile, int indx)
 	return true;
 }
 
+//读取原码文件获得字母表
 bool alphaTable::getAlpTab_File(const char* filename)
 {
-
-	//unsigned hash[257];
-	//memset(hash, -1, sizeof(hash));
+	//利用STL建立字符同字符出现频率的映射
 	std::unordered_map<char, int>hash;
+
+	//打开原码文件
 	std::ifstream fin(filename, std::ios::in | std::ios::binary);
 	if (!fin.is_open()) return false;
+
+	//读取字符，建立字母表
 	char ch;
 	while (!fin.eof()) {
 		fin.read(&ch, sizeof(ch));
 		if (hash[ch] == 0) {
 			alpNum++;
-		
+			//若字母种类超出字母表大小，则扩展
 			if (alpNum >= SIZE) {
 				Alpha* temp = new Alpha[SIZE + Size];
 				for (unsigned i = 1; i < SIZE; ++i) {
@@ -70,6 +73,7 @@ bool alphaTable::getAlpTab_File(const char* filename)
 			alpTab[hash[ch]].fre++;
 		}
 	}
+
 	return true;
 }
 
@@ -98,20 +102,27 @@ bool alphaTable::writeHdataToFile(const char* filename,int indx)
 	return true;
 }
 
+//读取头数据获得字母表
 bool alphaTable::getAlpTab_Hdata(const char* filename, int indx)
 {
+	//打开目标文件
 	std::ifstream fin(filename, std::ios::in | std::ios::binary);
 	if(!fin.is_open()) return false;
+
+	//定位到读取头数据位置
 	fin.seekg(indx);
 	fin.read((char*)&alpNum, sizeof(alpNum));
+	//扩展大小
 	if (alpNum > SIZE-1) {
 		alpTab = new Alpha[alpNum + Size];
 	}
+	//读取字符种类和对应频率
 	for (unsigned i = 1; i <= alpNum; ++i) {
 		fin.read((char*)&alpTab[i].ch, sizeof(char));
 		fin.read((char*)&alpTab[i].fre, sizeof(unsigned));
 	}
 	fin.close();
+
 	return true;
 }
 

@@ -2,24 +2,26 @@
 
 #include "HuffmanTree.h" 
 
+/*文件读写类*/
 class FileRW
 {
 public:
-	HuffmanTree Tree;
+	HuffmanTree Tree;	//由文件建立的哈夫曼树类
 
-	//这个文件类，文件的文件名（路径）
+	//当前文件类，文件的文件名（路径）
     char* filename;
 
 	int leaveBitNum;
 
-	//这个文件类型（后缀名）
+	//当前文件类型（后缀名）
 	std::string thisType;
-	//原始文件类型（后缀名）
+	//原码文件类型（后缀名）
 	std::string oriType;
 
-	//这个文件类别，表示是源码文件，还是译码文件，还是压缩后文件
+	//当前文件类别，表示是原码文件，还是译码文件，还是压缩后文件
 	unsigned fileType;
 
+	//读写文件时，01编码（压缩码）的起始位置。
 	unsigned beginInx;
 
 private:
@@ -49,6 +51,7 @@ public:
 	bool comF2codF(const char* tofile);
 	bool comF2codF(const char* tofile, bool deleteDecodeFile);
 
+	//获得建类所使用的的哈弗曼树，用于后序控制台函数测试
 	HuffmanTree getTree();
 };
 

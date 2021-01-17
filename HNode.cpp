@@ -18,12 +18,6 @@ bool HNode::initHNode(unsigned wei, unsigned l, unsigned r, unsigned pa)
 	return true;
 }
 
-HNode HNode::mergeHNode(const HNode& other, unsigned l, unsigned r, unsigned par)
-{
-	return HNode(weight + other.weight, l, r, par);
-}
-
-
 bool HNode::operator<(const HNode& other)
 {
 	return weight < other.weight;
