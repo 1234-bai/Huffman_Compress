@@ -16,9 +16,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_deButton_clicked();
+    void on_deButton_clicked();     //点击“文件压缩”按钮
 
-    void on_pushButton_2_clicked();
+    void on_pushButton_2_clicked();     //点击“文件解压”
 
 private:
     Ui::MainWindow *ui;

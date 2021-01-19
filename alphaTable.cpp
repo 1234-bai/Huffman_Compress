@@ -128,6 +128,7 @@ bool alphaTable::getAlpTab_Hdata(const char* filename, int indx)
 
 void alphaTable::print()
 {
+	std::cout << "字母种类以及对应的频率:" << std::endl;
 	for (unsigned i = 1; i <= alpNum; ++i) {
 		printf("%c", alpTab[i].ch);
 		std::cout << ":"<<alpTab[i].fre << ' ';

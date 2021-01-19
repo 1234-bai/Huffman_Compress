@@ -213,9 +213,13 @@ void HuffmanTree::print()
 {
 	alT.print();
 
-	//for (unsigned i = 1; i < 2*alT.alpNum; ++i)
-	//	std::cout << i << ":" << HTree[i]  << std::endl;
+	std::cout << "\n建立的哈夫曼树表：\n";
+	std::cout << "结点对应的权重以及孩子结点，双亲结点：" << std::endl;
+	for (unsigned i = 1; i < 2*alT.alpNum; ++i)
+		std::cout << i << ":" << HTree[i]  << std::endl;
 
+	std::cout << "\n建立的哈夫曼编码表：\n";
+	std::cout << "结点对应的编码：" << std::endl;
 	for (unsigned i = 1; i <= alT.alpNum; ++i)
 		std::cout << i  << ":" << HCode[i] << std::endl;
 }

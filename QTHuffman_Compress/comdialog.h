@@ -16,15 +16,15 @@ public:
     ~ComDialog();
 
 private slots:
-    void on_addFileNamesButton_clicked();
+    void on_addFileNamesButton_clicked();   //点击“添加”按钮
 
-    void on_delteFileNamesButton_clicked();
+    void on_delteFileNamesButton_clicked(); //点击“删除”按钮
 
-    void on_choseFilePathButton_clicked();
+    void on_choseFilePathButton_clicked();  //点击“浏览”按钮
 
-    void on_CanelButton_clicked();
+    void on_CanelButton_clicked();  //点击“取消”按钮
 
-    void on_StartButton_clicked();
+    void on_StartButton_clicked();  //点击“开始”按钮
 
 private:
     Ui::ComDialog *ui;

@@ -16,14 +16,14 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_deButton_clicked()
+void MainWindow::on_deButton_clicked()  //点击“文件压缩”按钮
 {
-    ComDialog* a = new ComDialog();
+    ComDialog* a = new ComDialog(); //打开“压缩文件界面”类
     a->show();
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pushButton_2_clicked()  //点击“文件解压”按钮
 {
-    DecomDialog *a = new DecomDialog();
+    DecomDialog *a = new DecomDialog(); //打开“解压文件界面类”
     a->show();
 }
